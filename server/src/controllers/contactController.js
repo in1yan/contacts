@@ -49,7 +49,7 @@ export const getAllContacts = async (req, res) => {
   try {
     const { sort = "-createdAt", limit, page = 1 } = req.query;
 
-    const query = Contact.find();
+    const query = Contact.find().maxTimeMS(10000); // 10 seconds timeout
     query.sort(sort);
 
     if (limit) {
@@ -60,7 +60,7 @@ export const getAllContacts = async (req, res) => {
     const contacts = await query;
 
     // Get total count for pagination
-    const total = await Contact.countDocuments();
+    const total = await Contact.countDocuments().maxTimeMS(10000);
 
     res.status(200).json({
       success: true,
@@ -79,7 +79,7 @@ export const getAllContacts = async (req, res) => {
 
 export const getContactById = async (req, res) => {
   try {
-    const contact = await Contact.findById(req.params.id);
+    const contact = await Contact.findById(req.params.id).maxTimeMS(10000);
 
     if (!contact) {
       return res.status(404).json({
@@ -147,7 +147,7 @@ export const updateContact = async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
 
-    const contact = await Contact.findById(req.params.id);
+    const contact = await Contact.findById(req.params.id).maxTimeMS(10000);
 
     if (!contact) {
       return res.status(404).json({
