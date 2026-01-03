@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "https://contacts-tawny-rho.vercel.app",
+        target: "https://beneficial-yasmin-iniyanv-15532637.koyeb.app/",
         changeOrigin: true,
       },
     },
